@@ -1,0 +1,9 @@
+DIRECTORY INFORMATION
+
+This folder contains settings and profile files for vairous software components, and for different operating systems.
+
+Just create a symbolic link to the neccessary folder.
+Example: ln -s ~/Dropbox/Settings/.bash_profile ~/
+
+.mybin directory functions as a personal "bin" directory, if its path is added to the profile file (such as ".bash_profile" for Mac OSX or ".profile" file for Linux.
+

@@ -37,7 +37,11 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 " MY PLUGINS
 Plugin 'nelstrom/vim-markdown-folding'
-Plugin 'tpope/vim-markdown'
+" Below are different markdown syntax highlighting plugins
+" Plugin 'tpope/vim-markdown'
+"Plugin 'gabrielelana/vim-markdown'
+" Plugin 'plasticboy/vim-markdown'
+"Plugin 'hallison/vim-markdown'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'yegappan/mru'    " Recently used files
@@ -73,8 +77,9 @@ filetype plugin indent on    " required
 " colorscheme simple256
 " colorscheme zellner
 " colorscheme kalisi
-colorscheme moria
-set background=dark
+colorscheme solarized
+" colorscheme moria
+set background=light
 " colorscheme leya (önceki)
 " colorscheme clarity "önceki
 " colorscheme editplus
@@ -125,13 +130,37 @@ command! CDC cd %:p:h
 " Do the same thing with mapping
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
+" Fix improper highligting of underscores in latex equations
+ function! MathAndLiquid()
+    "" Define certain regions
+    " Block math. Look for "$$[anything]$$"
+    syn region math start=/\$\$/ end=/\$\$/
+    " inline math. Look for "$[not $][anything]$"
+    syn match math_block '\$[^$].\{-}\$'
 
+    " Liquid single line. Look for "{%[anything]%}"
+    syn match liquid '{%.*%}'
+    " Liquid multiline. Look for "{%[anything]%}[anything]{%[anything]%}"
+    syn region highlight_block start='{% highlight .*%}' end='{%.*%}'
+    " Fenced code blocks, used in GitHub Flavored Markdown (GFM)
+    syn region highlight_block start='```' end='```'
+
+    "" Actually highlight those regions.
+    hi link math Statement
+    hi link liquid Statement
+    hi link highlight_block Function
+    hi link math_block Function
+endfunction
+
+" Call everytime we open a Markdown file
+autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown,*.txt call MathAndLiquid()
 " ----------------------------------------------------------------------------
 " PLUGIN SETTINGS
 " ----------------------------------------------------------------------------
 
 " setting for 'vim-markdown' plugin
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+" autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+"
 set foldcolumn=3
 
 set nocompatible
@@ -150,10 +179,11 @@ nnoremap <Leader>v :NERDTreeFind<CR>
 let g:vim_markdown_frontmatter = 1
 
 " Lightline plugin settings
+" To replace fullpath with only filename use 'filename'
 let g:lightline = {
 \ 'colorscheme': 'wombat',
 \ 'active': {
-\   'left': [['mode', 'paste'], ['filename', 'modified']],
+\   'left': [['mode', 'paste'], ['absolutepath', 'modified']],
 \   'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
 \ },
 \ 'component_expand': {
