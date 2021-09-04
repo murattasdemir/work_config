@@ -2,7 +2,7 @@
 # R profile file
 
 # Things you might want to change
-# options(papersize="a4")
+options(papersize="a4")
 # options(editor="notepad")
 # options(pager="internal")
 
@@ -26,10 +26,9 @@ options("stringsAsFactors"=FALSE)
 #options("RStata.StataPath" = "/Applications/Stata/StataSE.app/Contents/MacOS/stata-se")
 #options("RStata.StataVersion"=14)
 
-
 #.First <- function(){
- #library(RStata)
- # stata("set more off, permanently") 
+#library(RStata)
+# stata("set more off, permanently") 
 # cat("\n**** Welcome at", date(), "****")
 # cat("\n     Successfully loaded .Rprofile ", "\n")
 #}
@@ -41,3 +40,4 @@ options("stringsAsFactors"=FALSE)
 #Plotly account credentials
 Sys.setenv("plotly_username"="mtasdemir")
 Sys.setenv("plotly_api_key"="PHKEqsaotocEU94EiOIL")
+Sys.setenv(RETICULATE_PYTHON = "/usr/local/bin/python3")
